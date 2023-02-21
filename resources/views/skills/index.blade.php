@@ -1,12 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Skills
+            {{ __('Skills') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="flex justify-end m-2 p-2">
+                <a href="{{ route('skills.create') }}" class="px-4 py-2 bg-indigo-500 hover:bg-indigo-700 rounded-lg text-white">New Skill</a>
+            </div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white p-4">
                 <table class="w-full text-sm text-left">
                     <thead class="text-xs text-gray-700 uppercase">
@@ -29,10 +32,17 @@
                                 {{ $skill->name }}
                             </th>
                             <td class="px-6 py-4">
-                                Image
+                                <img src="{{ asset('storage/'.$skill->image) }}" alt="skill" class="w-12 h-12">
                             </td>
                             <td class="px-6 py-4">
-                                <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
+                                <a href="{{ route('skills.edit', $skill->id) }}" class="font-medium text-blue-600 hover:underline">Edit</a>
+                                <form action="{{ route('skills.destroy', $skill->id) }}" method="POST" class="inline-block">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                            onclick="return confirm('Click ok to delete!')"
+                                            class="font-medium text-red-600 hover:underline">Delete</button>
+                                </form>
                             </td>
                         </tr>
                     @empty
